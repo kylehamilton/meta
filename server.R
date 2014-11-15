@@ -15,7 +15,7 @@ library(quantreg)
 library(ggplot2)
 
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   options(warn=-1)
   
@@ -380,7 +380,13 @@ shinyServer(function(input, output) {
   }
   
   
-  output$fePlot <- renderPlot({
+  output$fePlot <- renderPlot(
+    { withProgress(message = 'Calculation in progress', detail = 'This may take a while...', value = 0, {
+           for (i in 1:25) {
+           incProgress(1/25)
+           Sys.sleep(0.25)
+                                                    }
+                                                  })
     print(makefePlot())
   })
   
@@ -500,7 +506,7 @@ shinyServer(function(input, output) {
   
   output$FunRandPlot <- renderPlot({
     print(makeFunRandPlot())
-  })
+})
   
   
   
@@ -751,10 +757,29 @@ shinyServer(function(input, output) {
   ################################################
   
   info <- reactive({
-    info1 <- paste("This analysis was conducted with ", strsplit(R.version$version.string, " \\(")[[1]][1], ".", sep = "")
-    info2 <- paste("It was executed on ", date(), ".", sep = "")
+    info1 <- paste("This analysis was performed on ", format(Sys.time(), "%A, %B %d %Y at %I:%M:%S %p"), ".", sep = "")
+    info2 <- paste(strsplit(R.version$version.string, " \\(")[[1]][1], " was used for this session.", sep = "")
+    info3 <- paste("Package version infomation for this session:")
+    info4 <- paste("ggplot2", packageVersion("ggplot2"))
+    info5 <- paste("MAc", packageVersion("MAc"))
+    info6 <- paste("MAd", packageVersion("MAd"))
+    info7 <- paste("meta", packageVersion("meta"))
+    info8 <- paste("metafor", packageVersion("metafor"))
+    info9 <- paste("quantreg", packageVersion("quantreg"))
+    info10 <- paste("shiny", packageVersion("shiny"))
+    info11 <- paste("shinyAce", packageVersion("shinyAce"))
+    
     cat(sprintf(info1), "\n")
     cat(sprintf(info2), "\n")
+    cat(sprintf(info3), "\n")
+    cat(sprintf(info4), "\n")
+    cat(sprintf(info5), "\n")
+    cat(sprintf(info6), "\n")
+    cat(sprintf(info7), "\n")
+    cat(sprintf(info8), "\n")
+    cat(sprintf(info9), "\n")
+    cat(sprintf(info10), "\n")
+    cat(sprintf(info11), "\n")
   })
   
   ################################################
