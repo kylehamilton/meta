@@ -19,6 +19,10 @@ shinyServer(function(input, output, session) {
   
   options(warn=-1)
   
+  # 
+  #reme <- reactive({input$model})
+  
+  
   
   # First calculation to be used later
   W.data <- reactive({
@@ -89,8 +93,10 @@ shinyServer(function(input, output, session) {
       dat$SV <- dat$vi 
       dat$vi <- NULL
       
-      FE.res <- rma(ES, SV, method="FE", data=dat, slab=paste(Study))
       
+      
+      FE.res <- rma(ES, SV, method="FE", data=dat, slab=paste(Study))
+
       list(FE.res = FE.res) # To be used later
     }
     
@@ -106,7 +112,7 @@ shinyServer(function(input, output, session) {
       dat$SV <- (((dat$N1+dat$N2)/(dat$N1*dat$N2))+((dat$ES*dat$ES)/(2*(dat$N1+dat$N2)))) 
       
       FE.res <- rma(ES, SV, method="FE", data=dat, slab=paste(Study))
-      
+
       list(FE.res = FE.res) # To be used later
     }
     
@@ -122,7 +128,7 @@ shinyServer(function(input, output, session) {
       dat$vi <- NULL
       
       FE.res <- rma(FZ, SV, data=dat, method = "FE", slab=paste(Study))
-      
+
       list(FE.res = FE.res) # To be used later
     }
   })
@@ -148,8 +154,8 @@ shinyServer(function(input, output, session) {
       dat$SV <- dat$vi 
       dat$vi <- NULL
       
-      RE.res <- rma(ES, SV, method="REML", data=dat, slab=paste(Study))
-      
+      RE.res <- rma(ES, SV, method=input$model, data=dat, slab=paste(Study))
+
       list(RE.res = RE.res) # To be used later
     }
     
@@ -165,8 +171,8 @@ shinyServer(function(input, output, session) {
       
       dat$SV <- (((dat$N1+dat$N2)/(dat$N1*dat$N2))+((dat$ES*dat$ES)/(2*(dat$N1+dat$N2)))) 
       
-      RE.res <- rma(ES, SV, method="REML", data=dat, slab=paste(Study))
-      
+      RE.res <- rma(ES, SV, method=input$model, data=dat, slab=paste(Study))
+
       list(RE.res = RE.res) # To be used later
     }
     
@@ -181,8 +187,8 @@ shinyServer(function(input, output, session) {
       dat$SV <- dat$vi # SV=sampling variances
       dat$vi <- NULL
       
-      RE.res <- rma(FZ, SV, data=dat, method = "REML", slab=paste(Study))
-      
+      RE.res <- rma(FZ, SV, data=dat, method =input$model, slab=paste(Study))
+
       list(RE.res = RE.res) # To be used later
       
     }
@@ -217,7 +223,7 @@ shinyServer(function(input, output, session) {
           "SV = Sampling variance [sqrt(SV) = Std err]", "\n", "\n"
       ) # ," W = Inverse variance weight", "\n", "\n"
       cat("---","\n")
-      
+
       print(dat)
     }
     
@@ -235,7 +241,7 @@ shinyServer(function(input, output, session) {
           "SV = Sampling variance [sqrt(SV) = Std err]", "\n", "\n"
       ) # , " W = Inverse variance weight", "\n", "\n"
       cat("---","\n")
-      
+
       print(dat)
     }
     
@@ -251,7 +257,7 @@ shinyServer(function(input, output, session) {
       cat("\n","FZ = Fisher's Z", "\n",
           "SV = Sampling variance [sqrt(SV) = Std err]", "\n", "\n")
       cat("---","\n")
-      
+
       print(dat)
       
     }
@@ -268,12 +274,17 @@ shinyServer(function(input, output, session) {
   fe <- reactive({
     
     if (input$type == "mdms") {
-      
+  
       FE.res <- FE.est()$FE.res
       
       cat("The FE model is a description of the K studies (Kovalchik, 2013).","\n")
       cat("---","\n")
-      
+      withProgress(message = 'Calculating', detail = 'Fixed effects model', value = 0, {
+        for (i in 1:10) {
+          incProgress(1/10)
+          Sys.sleep(0.05)
+        }
+      })
       FE.res
     }
     
@@ -284,7 +295,12 @@ shinyServer(function(input, output, session) {
       
       cat("The FE model is a description of the K studies (Kovalchik, 2013).","\n",
           "---","\n")
-      
+      withProgress(message = 'Calculating', detail = 'Fixed effects model', value = 0, {
+        for (i in 1:10) {
+          incProgress(1/10)
+          Sys.sleep(0.05)
+        }
+      })
       FE.res
       
     }
@@ -295,7 +311,12 @@ shinyServer(function(input, output, session) {
       dat <- read.csv(text=input$text, sep="\t")
       
       FE.res <- metacor(dat$r, dat$N)
-      
+      withProgress(message = 'Calculating', detail = 'Fixed effects model', value = 0, {
+        for (i in 1:10) {
+          incProgress(1/10)
+          Sys.sleep(0.05)
+        }
+      })
       FE.res
     }
   })
@@ -313,7 +334,12 @@ shinyServer(function(input, output, session) {
       cat("The RE model regards the K studies as a sample of","\n")
       cat(" a larger universe of studies (Kovalchik, 2013).","\n")
       cat("---","\n")
-      
+      withProgress(message = 'Calculating', detail = 'Random effects model', value = 0, {
+        for (i in 1:10) {
+          incProgress(1/10)
+          Sys.sleep(0.05)
+        }
+      })
       RE.res
     }
     
@@ -325,7 +351,12 @@ shinyServer(function(input, output, session) {
       cat("The RE model regards the K studies as a sample of","\n")
       cat(" a larger universe of studies (Kovalchik, 2013).","\n")
       cat("---","\n")
-      
+      withProgress(message = 'Calculating', detail = 'Random effects model', value = 0, {
+        for (i in 1:10) {
+          incProgress(1/10)
+          Sys.sleep(0.05)
+        }
+      })
       RE.res
       
     }
@@ -381,12 +412,13 @@ shinyServer(function(input, output, session) {
   
   
   output$fePlot <- renderPlot(
-    { withProgress(message = 'Calculation in progress', detail = 'This may take a while...', value = 0, {
-           for (i in 1:25) {
-           incProgress(1/25)
-           Sys.sleep(0.25)
-                                                    }
-                                                  })
+    { 
+      withProgress(message = 'Rendering', detail = 'Forest plot - fixed effects', value = 0, {
+        for (i in 1:10) {
+          incProgress(1/10)
+          Sys.sleep(0.05)
+        }
+      })
     print(makefePlot())
   })
   
@@ -424,7 +456,15 @@ shinyServer(function(input, output, session) {
   }
   
   
-  output$rePlot <- renderPlot({
+  output$rePlot <- renderPlot(
+    {  
+  withProgress(message = 'Rendering', detail = 'Forest plot - random effects', value = 0, {
+    for (i in 1:10) {
+      incProgress(1/10)
+       Sys.sleep(0.05)
+    }
+  })
+
     print(makerePlot())
   })
   
@@ -466,7 +506,14 @@ shinyServer(function(input, output, session) {
   }
   
   
-  output$FunFixPlot <- renderPlot({
+  output$FunFixPlot <- renderPlot(
+{ 
+  withProgress(message = 'Rendering', detail = 'Funnel plot - fixed effects', value = 0, {
+    for (i in 1:10) {
+      incProgress(1/10)
+       Sys.sleep(0.05)
+    }
+  })
     print(makeFunFixPlot())
   })
   
@@ -504,7 +551,14 @@ shinyServer(function(input, output, session) {
   }
   
   
-  output$FunRandPlot <- renderPlot({
+  output$FunRandPlot <- renderPlot(
+{
+  withProgress(message = 'Rendering', detail = 'Funnel plot - random effects', value = 0, {
+    for (i in 1:10) {
+      incProgress(1/10)
+      Sys.sleep(0.05)
+    }
+  })
     print(makeFunRandPlot())
 })
   
@@ -706,6 +760,13 @@ shinyServer(function(input, output, session) {
   
   
   output$ModFixGraph <- renderPlot({
+    
+    withProgress(message = 'Rendering', detail = 'Categorical Moderator - fixed effects', value = 0, {
+      for (i in 1:10) {
+        incProgress(1/10)
+        Sys.sleep(0.05)
+      }
+    })
     print(ModFixGraph())
   })
   
@@ -745,6 +806,12 @@ shinyServer(function(input, output, session) {
   
   
   output$ModRandGraph <- renderPlot({
+    withProgress(message = 'Rendering', detail = 'Categorical Moderator - random effects', value = 0, {
+      for (i in 1:10) {
+        incProgress(1/10)
+        Sys.sleep(0.05)
+      }
+    })
     print(ModRandGraph())
   })
   
@@ -780,25 +847,28 @@ shinyServer(function(input, output, session) {
     cat(sprintf(info9), "\n")
     cat(sprintf(info10), "\n")
     cat(sprintf(info11), "\n")
+    withProgress(message = 'Rendering', detail = 'R session info', value = 0, {
+      for (i in 1:10) {
+        incProgress(1/10)
+      }
+    })
   })
+
   
   ################################################
   # server.R and ui.R connection
   ################################################
-  
+  output$model.out <- renderPrint({ input$model })
+
   output$info.out <- renderPrint({
     info()
   })
-  
-  
-  
-  
   
   output$data.out <- renderPrint({
     data()
   })
   
-  output$fe.out <- renderPrint({
+  output$fe.out <- renderPrint( {
     fe()
   })
   
