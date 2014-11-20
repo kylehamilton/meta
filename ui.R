@@ -19,8 +19,8 @@ library(ggplot2)
 shinyUI(bootstrapPage(
   
   
-  headerPanel("Meta-analysis Shiny Project Beta v2.2b"),
-
+  headerPanel("MAVIS: Meta Analysis Via Shiny v0.2"),
+ 
   
   sidebarPanel(
     
@@ -47,7 +47,6 @@ shinyUI(bootstrapPage(
       tabPanel("Main",
                
                p('Note: Input values must be separated by tabs. Copy and paste from Excel.'),
-               p('Last build of this software was on 11/15/2014 at 11:10pm'),
                p(HTML("<b><div style='background-color:#FADDF2;border:1px solid black;'>Your data needs to have exactly the same header (variable names) in the first row.</div></b>")),
                
                strong('Option:'),
@@ -78,9 +77,9 @@ shinyUI(bootstrapPage(
                  br(),
                  br(),
                  'I^2 (How much effect sizes across studies differ)', br(),
-                 '25–50: Little different', br(),
-                 '50–75: Quite different', br(),
-                 '75–100: Considerably different', br(),
+                 "25-50: Little different", br(),
+                 '50-75: Quite different', br(),
+                 '75-100: Considerably different', br(),
                  br(),
                  'Test for Heterogeneity: p-val < .05 (not homogeneous)', br(),
                  br(),
@@ -206,8 +205,8 @@ shinyUI(bootstrapPage(
       
       tabPanel("About",
                
-               strong('Meta-analysis with R and Shiny'),
-               p("The goal of this project is to help students and researchers run a meta-analysis as easy as possible."),
+               strong('MAVIS: Meta Analysis Via Shiny'),
+               p("The goal of this project is to help students and researchers run a meta-analysis as easily as possible."),
                p('This application is developed with',
                  a("Shiny.", href="http://www.rstudio.com/shiny/", target="_blank"),
                  ''),
@@ -230,22 +229,41 @@ shinyUI(bootstrapPage(
                
                br(),
                
-               h4('Authors and Sources'),
-               h5('Authors'),
-                 a("William Kyle Hamilton - University of California, Merced", href="http://www.kylehamilton.com", target="_blank"),
-                 p("William Kyle Hamilton maintains this application and has authored new features."), 
-                 a("Atsushi Mizumoto, PhD - Kansai University", href="http://mizumot.com", target="_blank"),
-                 p("Atsushi Mizumoto wrote the first version of this application, this application is a fork of the original which can be found", a("here", href="https://github.com/mizumot/meta", target="_blank")), 
-                 
-                # Currently working on adding some of the features Dr. Baldwin had for his version into this
-                # a("Scott Baldwin, PhD - Brigham Young University", href="https://github.com/psychstatistics", target="_blank"),
-                #  br(),
-                # Currently working on adding some of the features Dr. Schulteis had for his version into this   
-                # a("Ryan Schulteis, MD - Duke University School of Medicine", href="http://schulteisventures.net", target="_blank"),
-                # br(),
+               h4('Acknowledgments and Authors'),
+                
+               strong('Acknowledgments'),
+               
+               p('William Kyle Hamilton would like to thank the ', 
+                 a("Health Communications and Interventions Lab at UC Merced", href="http://cameronhcilab.com/", target="_blank"), 
+                 'for their comments and beta testing efforts on this application ', 'as well as',
+                 a("Kathleen Coburn", href="http://psychology.ucmerced.edu/content/kathleen-coburn", target="_blank"),
+                 'for her feedback and evaluation of the statistical methods related to this project.'),  
+              
+               p('Atsushi Mizumoto would like to thank',
+                 a("Dr. Luke Plonsky", href="http://oak.ucc.nau.edu/ldp3/", target="_blank"), 'and',
+                 a("Dr. Yo In'nami", href="https://sites.google.com/site/yoinnami/", target="_blank"),
+                 'for their support and feedback to create this web application.'),       
                  
                   br(),
-      
+               
+
+               
+               h5('Authors'),
+               
+               HTML('<div style="clear: left;"><img src="http://kylehamilton.com/wp-content/uploads/2014/11/kyle80.jpg" alt="" style="float: left; margin-right:5px" /></div>'),
+               p(a("William Kyle Hamilton - University of California, Merced", href="http://www.kylehamilton.com", target="_blank")),
+               p("William Kyle Hamilton maintains this application and has authored new features."),
+               
+               br(),
+               HTML('<div style="clear: left;"><img src="http://kylehamilton.com/wp-content/uploads/2014/11/atsushi80.jpg" alt="" style="float: left; margin-right:5px" /></div>'),
+               p(a("Atsushi Mizumoto, PhD - Kansai University", href="http://mizumot.com", target="_blank"),br(),
+               p("Atsushi Mizumoto wrote the first version of this application; this application is a fork of the original which can be found", a("here", href="https://github.com/mizumot/meta", target="_blank"))
+               
+               
+               ),
+               
+               
+               
                p(br())
                
       )
